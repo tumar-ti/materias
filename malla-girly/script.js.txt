@@ -1,0 +1,92 @@
+// Lista de materias por semestre
+const materias = [
+  {
+    semestre: "2do Sem. 1",
+    materias: [
+      { nombre: "📖 Historia 1", area: "Historia", clase: "historia", creditos: 6 },
+      { nombre: "🏗️ Construcción 1", area: "Tecnología y Construcción", clase: "construccion", creditos: 6 },
+      { nombre: "🏛️ Proyecto 1 (P1)", area: "Proyecto", clase: "proyecto", creditos: 24 },
+      { nombre: "🎯 Transversal 1", area: "Transversal", clase: "transversal", creditos: 6 },
+      { nombre: "❄️ Acondicionamiento I", area: "Acondicionamiento", clase: "acond", creditos: 6 },
+      { nombre: "🧱 Estructuras 1", area: "Estructuras", clase: "estructuras", creditos: 12 }
+    ]
+  },
+  {
+    semestre: "2do Sem. 2",
+    materias: [
+      { nombre: "📖 Historia 2", area: "Historia", clase: "historia", creditos: 6 },
+      { nombre: "🏗️ Construcción 2", area: "Tecnología y Construcción", clase: "construccion", creditos: 9 },
+      { nombre: "🏛️ Proyecto 2 (P2)", area: "Proyecto", clase: "proyecto", creditos: 24 },
+      { nombre: "🎯 Transversal 2", area: "Transversal", clase: "transversal", creditos: 6 }
+    ]
+  },
+  {
+    semestre: "3ro Sem. 1",
+    materias: [
+      { nombre: "📖 Teoría 1", area: "Teoría", clase: "teoria", creditos: 6 },
+      { nombre: "📖 Historia (Prof.)", area: "Historia", clase: "historia", creditos: 6 },
+      { nombre: "💡 Acondicionamiento II", area: "Acondicionamiento", clase: "acond", creditos: 9 },
+      { nombre: "🏗️ Proyecto Urbano Básico 1 (PUB1)", area: "Proyecto", clase: "proyecto", creditos: 12 },
+      { nombre: "🎯 Transversal 3", area: "Transversal", clase: "transversal", creditos: 6 }
+    ]
+  },
+  {
+    semestre: "3ro Sem. 2",
+    materias: [
+      { nombre: "📖 Teoría 2", area: "Teoría", clase: "teoria", creditos: 6 },
+      { nombre: "📖 Historia (Prof.)", area: "Historia", clase: "historia", creditos: 6 },
+      { nombre: "🏗️ Proyecto Urbano Básico 2 (PUB2)", area: "Proyecto", clase: "proyecto", creditos: 12 },
+      { nombre: "🎯 Transversal 4", area: "Transversal", clase: "transversal", creditos: 6 }
+    ]
+  },
+  {
+    semestre: "4to Sem. 1",
+    materias: [
+      { nombre: "📖 Historia 3", area: "Historia", clase: "historia", creditos: 6 },
+      { nombre: "🏗️ Construcción 3", area: "Tecnología y Construcción", clase: "construccion", creditos: 9 },
+      { nombre: "🏗️ Proyecto Urbano Avanzado (PUA)", area: "Proyecto", clase: "proyecto", creditos: 12 },
+      { nombre: "🧱 Estructuras 2", area: "Estructuras", clase: "estructuras", creditos: 12 },
+      { nombre: "🎯 Transversal 5", area: "Transversal", clase: "transversal", creditos: 6 }
+    ]
+  },
+  {
+    semestre: "4to Sem. 2",
+    materias: [
+      { nombre: "🏗️ Proyecto Edilicio Básico 1 (PEB1)", area: "Proyecto", clase: "proyecto", creditos: 12 },
+      { nombre: "🏗️ Proyecto Edilicio Básico 2 (PEB2)", area: "Proyecto", clase: "proyecto", creditos: 12 },
+      { nombre: "🏗️ Proyecto Edilicio Avanzado (PEA)", area: "Proyecto", clase: "proyecto", creditos: 12 }
+    ]
+  }
+];
+
+// Mostrar en la página
+const contenedor = document.getElementById("malla");
+
+materias.forEach(sem => {
+  const columna = document.createElement("div");
+  columna.className = "semestre";
+  columna.innerHTML = `<h2>${sem.semestre}</h2>`;
+
+  sem.materias.forEach(mat => {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = `materia ${mat.clase}`;
+    tarjeta.textContent = `${mat.nombre} (${mat.creditos} cr)`;
+    tarjeta.setAttribute("data-area", mat.area);
+
+    // Restaurar estado desde localStorage
+    const id = `${sem.semestre}-${mat.nombre}`;
+    if (localStorage.getItem(id) === "hecha") {
+      tarjeta.classList.add("hecha");
+    }
+
+    // Al hacer clic
+    tarjeta.addEventListener("click", () => {
+      tarjeta.classList.toggle("hecha");
+      localStorage.setItem(id, tarjeta.classList.contains("hecha") ? "hecha" : "");
+    });
+
+    columna.appendChild(tarjeta);
+  });
+
+  contenedor.appendChild(columna);
+});
